@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Подробная информация
+{% endblock title %}
+
+{% block content %}
+{{ads_detail}}
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="text">Текст отклика</label>
+    <input name="name" type="text">
+    <input type="submit" value="Отправить отклик">
+</form>
+
+{% endblock content %}

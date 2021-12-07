@@ -19,7 +19,7 @@ class Category(models.Model):
 class Ads(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
-    text = models.CharField()
+    text = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -29,7 +29,7 @@ class Ads(models.Model):
 
 class Answer(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    text = models.CharField()
+    text = models.TextField()
     ads = models.ForeignKey(Ads, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField()
@@ -40,6 +40,9 @@ class Answer(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=128)
-    text = models.CharField()
+    text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    
+
+    def __str__(self):
+        return f'{self.title}: {self.text[:20]}'
+

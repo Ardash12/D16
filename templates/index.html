@@ -1,0 +1,13 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Список объявлений
+{% endblock title %}
+
+{% block content %}
+
+{{ header }}
+{{ message }}
+<a href="{% url 'ads_list' %}">Объявления</a>
+
+{% endblock content %}

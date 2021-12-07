@@ -1,0 +1,14 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Список пользователей
+{% endblock title %}
+
+{% block content %}
+
+{% if users %}
+    {% for user in users %}
+        {{ user }}
+    {% endfor %}
+{% endif %}
+{% endblock content %}
