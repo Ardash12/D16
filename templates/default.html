@@ -6,8 +6,36 @@
     <title>Заголовок - {% block title %} {% endblock title %}</title>
 </head>
 <body>
-       {% block content %}
-       {{ flatpage.content }}
-       {% endblock content %}
+    <style type="text/css">
+        TABLE {
+            width: 500px; /* Ширина таблицы */
+            border-collapse: collapse; /* Убираем двойные линии между ячейками */
+        }
+        TD, TH {
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+            border: 1px solid white; /* Параметры рамки */
+        }
+        TH {
+            background: #b0e0e6; /* Цвет фона */
+        }
+    </style>
+    <table cellpadding="15">
+        <tr>
+            <td><b>Каталог ссылок:</b></td>
+            <td><a href="{% url 'ads_list' %}">Объявления</a></td>
+            <td><a href="{% url 'news_list' %}">Новости</a></td>
+            <td><a href="{% url 'users' %}">Пользователи</a></td>
+            <td><a href="{% url 'answer' %}">Отклики</a></td>
+            <td><a href="/admin"  target="_blank">Админка</a></td>
+        </tr>
+    </table>
+    <hr>
+
+
+
+
+{% block content %}
+    {{ flatpage.content }}
+{% endblock content %}
 </body>
 </html>

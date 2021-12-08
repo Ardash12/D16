@@ -1,0 +1,47 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Список объявлений
+{% endblock title %}
+
+{% block content %}
+<table>
+    <tr>
+        <td>
+            answer.author
+        </td>
+        <td>
+            answer.text
+        </td>
+        <td>
+            answer.ads
+        </td>
+        <td>
+            answer.date
+        </td>
+        <td>
+            answer.status
+        </td>
+    </tr>
+    {% for answer in answers %}
+    <tr>
+        <td>
+            {{ answer.author }}
+        </td>
+        <td>
+            {{ answer.text }}
+        </td>
+        <td>
+            {{ answer.ads }}
+        </td>
+        <td>
+            {{ answer.date }}
+        </td>
+        <td>
+            {{ answer.status }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}

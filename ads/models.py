@@ -32,7 +32,7 @@ class Answer(models.Model):
     text = models.TextField()
     ads = models.ForeignKey(Ads, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField()
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.text[:20]}'

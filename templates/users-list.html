@@ -7,8 +7,58 @@
 {% block content %}
 
 {% if users %}
+
+<table>
+    <tr>
+        <td>
+            user.id
+        </td>
+        <td>
+            user.username
+        </td>
+        <td>
+            user.first_name
+        </td>
+    </tr>
+
     {% for user in users %}
-        {{ user }}
+    <tr>
+        <td>
+            {{ user.id }}
+        </td>
+        <td>
+            {{ user.username }}
+        </td>
+        <td>
+            {{ user.first_name }}
+        </td>
+    </tr>
     {% endfor %}
+</table>
+<br>
+<table>
+    <tr>
+        <td>
+            author.id
+        </td>
+        <td>
+            author.authorUser
+        </td>
+    </tr>
+    {% for author in authors %}
+    <tr>
+        <td>
+            {{ author.id }}
+        </td>
+        <td>
+            {{ author.authorUser }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+{{ temp }}
+
+
 {% endif %}
 {% endblock content %}

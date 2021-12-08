@@ -6,8 +6,12 @@
 
 {% block content %}
 
-{{ header }}
-{{ message }}
-<a href="{% url 'ads_list' %}">Объявления</a>
+
+<b>Каталог ссылок</b><br>
+<a href="{% url 'ads_list' %}">Объявления</a><br>
+<a href="{% url 'news_list' %}">Новости</a><br>
+<a href="{% url 'users' %}">Пользователи</a><br>
+<a href="/admin">Админка</a>
+
 
 {% endblock content %}

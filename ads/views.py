@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.models import User
-from .models import Ads, News, Answer
+from .models import Ads, News, Answer, Author
 
 
 def index(request):
@@ -27,13 +27,19 @@ class AdsDetail(DetailView):
     def post(self, request, *args, **kwargs):
         # берём значения для нового товара из POST-запроса отправленного на сервер
         text = request.POST['name']
-        user = request.user.username
-        user_id = request.user_authorUser.id
-        answer = Answer(text=user, status=True, ads_id=1, author_id=user_id)
+        user = request.user
+        user_id = request.user.id
+        author = Author.objects.get(authorUser=user)
+        # answer = Answer(text=f'{user},{user_id},{text}, {author}, {author.id}', ads_id=1, author_id=author.id)
+        a1 = request.path
+        a2 = request.method
+        a3 = request.GET
+        a4 = request.POST
+        a5 = request.COOKIES
+        a6 = request.session
+        a7 = request.user
+        # answer = Answer(text=f'{a1}, {a2}, {a3}, {a4}, {a5}, {a6}, {a7}', ads_id=1, author_id=author.id)
         answer.save()
-        # product = Product(name=name, quantity=quantity, category_id=category_id,
-        #                   price=price)  # создаём новый товар и сохраняем
-        # product.save()
         return super().get(request, *args, **kwargs)  # отправляем пользователя обратно на GET-запрос.
 
 
@@ -53,8 +59,32 @@ class NewsDetail(DetailView):
     queryset = News.objects.all()
 
 
-class UserList(ListView):
+class UserList(ListView):   # список пользователей
     model = User
     template_name = 'users-list.html'
-    context_object_name = 'users'
-    queryset = User.objects.all()
+    # context_object_name = 'users'
+    # queryset = User.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.all()
+        context['authors'] = Author.objects.all()
+        # context['temp'] = Author.objects.filter(authorUser__id=User)
+        return context
+
+
+class AnswerList(ListView):
+    model = Answer
+    template_name = 'answer-list.html'
+    ordering = ['date']
+    # context_object_name = 'answers'
+    # queryset = Answer.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['answers'] = Answer.objects.all()
+        context['ads'] = Ads.objects.all()
+
+        return context
+
+

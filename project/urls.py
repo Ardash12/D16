@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from ads.views import index, NewsList, NewsDetail, UserList
+from ads.views import index, NewsList, NewsDetail, UserList, AnswerList
 
 
 urlpatterns = [
@@ -25,5 +25,5 @@ urlpatterns = [
     path('news/', NewsList.as_view(), name='news_list'),
     path('news/<int:pk>', NewsDetail.as_view(), name='news_detail'),
     path('users/', UserList.as_view(), name='users'),
-
+    path('answer/', AnswerList.as_view(), name='answer'),
 ]
