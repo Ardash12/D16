@@ -1,0 +1,16 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Регистрация нового пользователя
+{% endblock title %}
+
+{% block content %}
+
+<h2>Регистрация нового пользователя</h2>
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Продолжить">
+</form>
+
+{% endblock content %}

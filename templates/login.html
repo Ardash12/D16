@@ -1,0 +1,26 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Аккаунт пользователя
+{% endblock title %}
+
+{% block content %}
+<h2>Войти в систему</h2>
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
+    </table>
+    <input type="submit" value="Войти">
+</form>
+<br>
+<button><a href="{% url 'signup' %}">Регистрация</a></button>
+{% endblock content %}

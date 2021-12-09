@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block content %}
+
 <table>
     <tr>
         <td>
@@ -22,6 +23,7 @@
         <td>
             answer.status
         </td>
+        <td></td>
     </tr>
     {% for answer in answers %}
     <tr>
@@ -39,6 +41,9 @@
         </td>
         <td>
             {{ answer.status }}
+        </td>
+        <td>
+            <a href="{% url 'answer' answer.id %}">Просмотр</a>
         </td>
     </tr>
     {% endfor %}

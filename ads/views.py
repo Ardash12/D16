@@ -1,7 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, TemplateView
+from django.views.generic.edit import CreateView
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 from .models import Ads, News, Answer, Author
+from .forms import BaseRegisterForm
 
 
 def index(request):
@@ -26,19 +31,12 @@ class AdsDetail(DetailView):
 
     def post(self, request, *args, **kwargs):
         # берём значения для нового товара из POST-запроса отправленного на сервер
-        text = request.POST['name']
-        user = request.user
-        user_id = request.user.id
-        author = Author.objects.get(authorUser=user)
-        # answer = Answer(text=f'{user},{user_id},{text}, {author}, {author.id}', ads_id=1, author_id=author.id)
-        a1 = request.path
-        a2 = request.method
-        a3 = request.GET
-        a4 = request.POST
-        a5 = request.COOKIES
-        a6 = request.session
-        a7 = request.user
-        # answer = Answer(text=f'{a1}, {a2}, {a3}, {a4}, {a5}, {a6}, {a7}', ads_id=1, author_id=author.id)
+        author = Author.objects.get(authorUser=request.user)
+        answer = Answer(
+            text=request.POST['name'],
+            ads_id=self.kwargs['pk'],
+            author_id=author.id
+        )
         answer.save()
         return super().get(request, *args, **kwargs)  # отправляем пользователя обратно на GET-запрос.
 
@@ -84,7 +82,37 @@ class AnswerList(ListView):
         context = super().get_context_data(**kwargs)
         context['answers'] = Answer.objects.all()
         context['ads'] = Ads.objects.all()
-
         return context
 
 
+def author_list(request):
+    authors = Author.objects.all()
+    return render(request, 'temp.html', context={'authors': authors})
+
+
+def author_detail(request, pk):
+    # author = Author.objects.get(id=pk)
+    author = get_object_or_404(Author, id=pk)
+    ads = Ads.objects.filter(author=author)
+    context = {
+        'author': author,
+        'ads': ads,
+    }
+    return render(request, 'temp2.html', context)
+
+
+class Account(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts.html'
+
+
+class AnswerDetail(DetailView):
+    meta = Answer
+    template_name = 'answer-detail.html'
+    context_object_name = 'answer'
+    queryset = Answer.objects.all()
+
+
+class BaseRegisterView(CreateView):
+    model = User
+    form_class = BaseRegisterForm
+    success_url = reverse_lazy('login')

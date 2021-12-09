@@ -8,7 +8,7 @@
 <body>
     <style type="text/css">
         TABLE {
-            width: 500px; /* Ширина таблицы */
+            width: 100%; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
         }
         TD, TH {
@@ -19,14 +19,30 @@
             background: #b0e0e6; /* Цвет фона */
         }
     </style>
+    <table border="1">
+        <tr>
+            <td width="600">
+
     <table cellpadding="15">
         <tr>
             <td><b>Каталог ссылок:</b></td>
             <td><a href="{% url 'ads_list' %}">Объявления</a></td>
             <td><a href="{% url 'news_list' %}">Новости</a></td>
             <td><a href="{% url 'users' %}">Пользователи</a></td>
-            <td><a href="{% url 'answer' %}">Отклики</a></td>
+            <td><a href="{% url 'answers' %}">Отклики</a></td>
             <td><a href="/admin"  target="_blank">Админка</a></td>
+        </tr>
+    </table>
+            </td>
+            <td align="right">
+                {% if user.is_authenticated %}
+                    <p>Вы вошли как, <b>{{ request.user.username }}</b> /
+                        <a href="{% url 'accounts' %}">Личный кабинет</a> /
+                    <a href="{% url 'logout' %}">Выйти</a></p>
+                {% else %}
+                    <a href="{% url 'login' %}">Войти</a>
+                {% endif %}
+            </td>
         </tr>
     </table>
     <hr>

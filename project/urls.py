@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from ads.views import index, NewsList, NewsDetail, UserList, AnswerList
+from django.contrib.auth.views import LoginView, LogoutView
+from ads.views import index, NewsList, NewsDetail, UserList, AnswerList, author_list, author_detail, \
+    Account, AnswerDetail, BaseRegisterView
 
 
 urlpatterns = [
@@ -25,5 +27,12 @@ urlpatterns = [
     path('news/', NewsList.as_view(), name='news_list'),
     path('news/<int:pk>', NewsDetail.as_view(), name='news_detail'),
     path('users/', UserList.as_view(), name='users'),
-    path('answer/', AnswerList.as_view(), name='answer'),
+    path('answers/', AnswerList.as_view(), name='answers'),
+    path('answer/<int:pk>', AnswerDetail.as_view(), name='answer'),
+    path('temp/', author_list),
+    path('temp/<int:pk>', author_detail, name='temp2'),
+    path('login/accounts/', Account.as_view(), name='accounts'),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('signup/', BaseRegisterView.as_view(template_name='signup.html'), name='signup'),
 ]

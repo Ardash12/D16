@@ -1,0 +1,12 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Аккаунт пользователя
+{% endblock title %}
+
+{% block content %}
+
+<h2>Вы вышли из системы</h2>
+<div><a href="{% url 'login' %}">Войти</a></div>
+
+{% endblock content %}

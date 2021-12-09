@@ -1,0 +1,14 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Отклик
+{% endblock title %}
+
+{% block content %}
+<p>Автор: {{ answer.author }}</p>
+<p>Сообщение: {{ answer.text }}</p>
+<p>Отклик на объявление: {{ answer.ads.title }}</p>
+<p>Дата размещения: {{ answer.date|date:'d M Y' }}</p>
+<p>Статус отклика: {{ answer.status }}</p>
+
+{% endblock content %}

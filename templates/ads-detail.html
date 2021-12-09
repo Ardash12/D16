@@ -7,11 +7,16 @@
 {% block content %}
 {{ads_detail}}
 
-<form method="POST">
-    {% csrf_token %}
-    <label for="text">Текст отклика</label>
-    <input name="name" type="text">
-    <input type="submit" value="Отправить отклик">
-</form>
+{% if user.is_authenticated %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="text">Текст отклика</label>
+        <input name="name" type="text">
+        <input type="submit" value="Отправить отклик">
+    </form>
+{% else %}
+    <p>Войдите, чтобы отправить отклик /
+    <a href="{% url 'login' %}">Войти</a></p>
+{% endif %}
 
 {% endblock content %}
