@@ -35,7 +35,7 @@ class Answer(models.Model):
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.text[:20]}'
+        return f'{self.text[:20]}...'
 
 
 class News(models.Model):

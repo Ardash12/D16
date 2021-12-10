@@ -8,6 +8,38 @@
 
     <h2>Страница пользователя {{request.user.username}}</h2>
     <div>Информация о пользователе</div>
+    <h3>Мои объявления:</h3>
+    {% if ads %}
+        {% for ad in ads %}
+            {{ ad.title }} <br>
+        {% endfor %}
+    {% else %}
+            <p>У вас нет опубликованных объявлений</p>
+    {% endif %}
+    <br>
+    Автор: {{ author }}
+    <br>
+    <h3>Мои отклики:</h3>
+    {% if answers %}
+        {% for answer in my_answers %}
+            {{ answer }}<br>
+        {% endfor %}
+    {% else %}
+        <p>У вас нет откликов</p>
+    {% endif %}
+
+    <h3>Отклики на мои объявления:</h3>
+    {{ answers_to_my_ads }} <br>
+    {% if answers_to_my_ads %}
+        {% for answers in answers_to_my_ads %}
+        {% for ans in answers %}
+            {{ ans.ads.title }}<br>
+        {% endfor %}
+        {% endfor %}
+    {% endif %}
+    <br>
+
+    <br>
     <button><a href="{% url 'logout' %}">Выйти</a></button>
 
 {% endblock content %}
