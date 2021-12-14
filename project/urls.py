@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from ads.views import index, NewsList, NewsDetail, UserList, AnswerList, author_list, author_detail, \
-    Account, AnswerDetail, BaseRegisterView
+    AnswerDetail
 
 
 urlpatterns = [
@@ -31,8 +34,6 @@ urlpatterns = [
     path('answer/<int:pk>', AnswerDetail.as_view(), name='answer'),
     path('temp/', author_list),
     path('temp/<int:pk>', author_detail, name='temp2'),
-    path('login/accounts/', Account.as_view(), name='accounts'),
-    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
-    path('signup/', BaseRegisterView.as_view(template_name='signup.html'), name='signup'),
-]
+    path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    path('accounts/', include('accounts.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

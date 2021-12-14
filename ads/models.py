@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Author(models.Model):
@@ -22,6 +24,7 @@ class Ads(models.Model):
     text = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+    body = RichTextUploadingField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.title}: {self.text[:20]}'
