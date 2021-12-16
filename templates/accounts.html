@@ -31,15 +31,42 @@
     <h3>Отклики на мои объявления:</h3>
     {{ answers_to_my_ads }} <br>
     {% if answers_to_my_ads %}
+    <table>
+        <tr>
+            <td><b>Отклик на объявление</b></td>
+            <td><b>Текст отклика</b></td>
+            <td><b>Автор</b></td>
+            <td><b>Дата отклика</b></td>
+            <td><b>Статус</b></td>
+        </tr>
         {% for answers in answers_to_my_ads %}
         {% for ans in answers %}
-            {{ ans.ads.title }}<br>
+        <tr>
+            <td>{{ ans.ads.title }}</td>
+            <td>{{ ans.text |truncatechars:150 }}</td>
+            <td>{{ ans.author }}</td>
+            <td>{{ ans.date | date:'d M Y' }}</td>
+            <td>
+            {% if not ans.status %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="name">Не принят </label>
+                    <input type="submit" value='{{ ans.id }}' Name="answer">
+                </form>
+            {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="name">Принят </label>
+                    <input type="submit" value="Отменить">
+                </form>
+            {% endif %}
+            </td>
+        </tr>
         {% endfor %}
         {% endfor %}
+    </table>
+    {% else %}
+        <p>У вас пока нет откликов</p>
     {% endif %}
-    <br>
-
-    <br>
-    <button><a href="{% url 'logout' %}">Выйти</a></button>
 
 {% endblock content %}

@@ -28,7 +28,6 @@ class Account(LoginRequiredMixin, TemplateView):
     template_name = 'accounts.html'
 
     def get_context_data(self, **kwargs):
-        user = User.objects.get(id=self.request.user.id)
         author = Author.objects.get(authorUser=User.objects.get(id=self.request.user.id))   # создаем объект класса текущего пользователя
         ads = Ads.objects.filter(author=author)   # создаем список объявлений текущего пользователя
         # добавить проверку
@@ -47,3 +46,8 @@ class Account(LoginRequiredMixin, TemplateView):
         context['answers_to_my_ads'] = answers_to_my_ads
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        # answer_id = request.POST['submit']
+        print(request.POST)
+        return super().get(request, *args, **kwargs)

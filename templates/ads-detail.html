@@ -5,7 +5,11 @@
 {% endblock title %}
 
 {% block content %}
-{{ads_detail}}
+<h1>{{ads_detail.title}}</h1>
+{{ads_detail.text | safe}}
+<p><b>Категория:</b> {{ads_detail.category}}</p>
+<p><b>Автор:</b> {{ads_detail.author}}</p>
+<p><b>Дата:</b> {{ads_detail.date|date:'d M Y'}}</p>
 
 {% if user.is_authenticated %}
     <form method="POST">

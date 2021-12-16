@@ -21,10 +21,9 @@ class Category(models.Model):
 class Ads(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
-    text = models.TextField()
+    text = RichTextUploadingField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    body = RichTextUploadingField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.title}: {self.text[:20]}'
@@ -43,7 +42,7 @@ class Answer(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=128)
-    text = models.TextField()
+    text = RichTextUploadingField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

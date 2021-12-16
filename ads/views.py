@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, View, TemplateView
+from django.views.generic import ListView, DetailView, View, TemplateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -38,7 +38,6 @@ class AdsDetail(DetailView):
         answer.save()
         return super().get(request, *args, **kwargs)  # отправляем пользователя обратно на GET-запрос.
 
-
 class NewsList(ListView):
     model = News
     template_name = 'news-list.html'
@@ -65,22 +64,36 @@ class UserList(ListView):   # список пользователей
         context = super().get_context_data(**kwargs)
         context['users'] = User.objects.all()
         context['authors'] = Author.objects.all()
-        # context['temp'] = Author.objects.filter(authorUser__id=User)
         return context
 
 
-class AnswerList(ListView):
-    model = Answer
+class AnswerList(TemplateView):
     template_name = 'answer-list.html'
-    ordering = ['date']
-    # context_object_name = 'answers'
-    # queryset = Answer.objects.all()
 
     def get_context_data(self, **kwargs):
+        user = User.objects.get(id=self.request.user.id)
         context = super().get_context_data(**kwargs)
-        context['answers'] = Answer.objects.all()
-        context['ads'] = Ads.objects.all()
+        context['answers'] = Answer.objects.filter(ads__author=user.id).order_by('-date')
         return context
+
+    def post(self, request, *args, **kwargs):
+        # answer_id = request.POST['submit']
+        print(request.POST)
+        return super().get(request, *args, **kwargs)
+
+
+class AnswerDelete(DeleteView):
+    queryset = Answer.objects.all()
+    template_name = 'answer-delete.html'
+    context_object_name = 'answer'
+    success_url = reverse_lazy('answers')
+
+
+class AnswerDetail(DetailView):
+    meta = Answer
+    template_name = 'answer-detail.html'
+    context_object_name = 'answer'
+    queryset = Answer.objects.all()
 
 
 def author_list(request):
@@ -99,11 +112,7 @@ def author_detail(request, pk):
     return render(request, 'temp2.html', context)
 
 
-class AnswerDetail(DetailView):
-    meta = Answer
-    template_name = 'answer-detail.html'
-    context_object_name = 'answer'
-    queryset = Answer.objects.all()
+
 
 
 

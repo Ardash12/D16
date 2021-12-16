@@ -5,36 +5,38 @@
 {% endblock title %}
 
 {% block content %}
-
+<h1>Отклики на мои объявления</h1>
+{% if answers %}
 <table>
     <tr>
         <td>
-            answer.author
+            <b>Отклик на объявление</b>
         </td>
         <td>
-            answer.text
+            <b>Текст отклика</b>
         </td>
         <td>
-            answer.ads
+            <b>Автор</b>
         </td>
         <td>
-            answer.date
+            <b>Дата</b>
         </td>
         <td>
-            answer.status
+            <b>Статус</b>
         </td>
+        <td></td>
         <td></td>
     </tr>
     {% for answer in answers %}
     <tr>
         <td>
-            {{ answer.author }}
+            {{ answer.ads }}
         </td>
         <td>
             {{ answer.text }}
         </td>
         <td>
-            {{ answer.ads }}
+            {{ answer.author }}
         </td>
         <td>
             {{ answer.date }}
@@ -45,8 +47,15 @@
         <td>
             <a href="{% url 'answer' answer.id %}">Просмотр</a>
         </td>
+        <td>
+            <a href="{% url 'answer_delete' answer.id %}">Удалить</a>
+        </td>
     </tr>
     {% endfor %}
 </table>
+{% else %}
+<p>У вас нет откликов</p>
+{% endif %}
+
 
 {% endblock content %}

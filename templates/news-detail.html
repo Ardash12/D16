@@ -5,5 +5,7 @@
 {% endblock title %}
 
 {% block content %}
-{{news_detail}}
+<h1>{{ news_detail.title }}</h1>
+{{ news_detail.text | safe }}
+<p>{{ news_detail.date | date:'d M Y' }}</p>
 {% endblock content %}
