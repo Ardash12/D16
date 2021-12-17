@@ -5,10 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from .models import Ads, News, Answer, Author
+from .filters import AdsFilter, AnswerFilter
 
 
 def index(request):
-    data = {"header": "Hello Django", "message": "Welcome to Python"}
+    data = {
+        'ads': Ads.objects.all(),
+        'filter': AdsFilter(request.GET, queryset=Ads.objects.all())
+    }
     return render(request, "index.html", context=data)
 
 
@@ -16,9 +20,21 @@ class AdsList(ListView):
     model = Ads
     template_name = 'ads-list.html'
     context_object_name = 'ads_list'
-    queryset = Ads.objects.all()
     paginate_by = 5  # постраничный вывод
     ordering = ['date']
+
+    def get_filter(self):
+        return AdsFilter(self.request.GET, queryset=super().get_queryset())
+
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.get_filter()
+        return context
+
+
 
 
 class AdsDetail(DetailView):
@@ -67,13 +83,21 @@ class UserList(ListView):   # список пользователей
         return context
 
 
-class AnswerList(TemplateView):
+class AnswerList(ListView):
+    model = Answer
+    context_object_name = 'answers'
     template_name = 'answer-list.html'
 
-    def get_context_data(self, **kwargs):
+    def get_filter(self):
         user = User.objects.get(id=self.request.user.id)
+        return AnswerFilter(self.request.GET, queryset=Answer.objects.filter(ads__author=user.id).order_by('-date'))
+
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['answers'] = Answer.objects.filter(ads__author=user.id).order_by('-date')
+        context['filter'] = self.get_filter()
         return context
 
     def post(self, request, *args, **kwargs):

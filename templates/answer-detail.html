@@ -5,10 +5,11 @@
 {% endblock title %}
 
 {% block content %}
-<p>Автор: {{ answer.author }}</p>
-<p>Сообщение: {{ answer.text }}</p>
-<p>Отклик на объявление: {{ answer.ads.title }}</p>
-<p>Дата размещения: {{ answer.date|date:'d M Y' }}</p>
-<p>Статус отклика: {{ answer.status }}</p>
+<p><b>Автор:</b> {{ answer.author }}</p>
+<p><b>Сообщение:</b></p>
+<p>{{ answer.text }}</p>
+<p><b>Отклик на объявление:</b> {{ answer.ads.title }}</p>
+<p><b>Дата размещения:</b> {{ answer.date|date:'d M Y' }}</p>
+<p><b>Статус отклика:</b> {{ answer.status }}</p>
 
 {% endblock content %}

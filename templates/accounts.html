@@ -51,6 +51,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     <label for="name">Не принят </label>
+                    <input name="name" value="{{ ans.id }}" type="text">
                     <input type="submit" value='{{ ans.id }}' Name="answer">
                 </form>
             {% else %}

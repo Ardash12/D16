@@ -26,7 +26,7 @@ class Ads(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.title}: {self.text[:20]}'
+        return f'{self.title}'
 
 
 class Answer(models.Model):

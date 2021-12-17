@@ -5,7 +5,10 @@
 {% endblock title %}
 
 {% block content %}
-
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Применить">
+</form>
 {% if ads_list %}
     <table>
             <tr>

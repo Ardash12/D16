@@ -6,6 +6,10 @@
 
 {% block content %}
 <h1>Отклики на мои объявления</h1>
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Применить">
+</form>
 {% if answers %}
 <table>
     <tr>
@@ -30,7 +34,7 @@
     {% for answer in answers %}
     <tr>
         <td>
-            {{ answer.ads }}
+            {{ answer.ads.title }}
         </td>
         <td>
             {{ answer.text }}

@@ -6,12 +6,17 @@
 
 {% block content %}
 
+<h1>Объявления</h1>
+    <form method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" value="Показать">
+    </form>
 
-<b>Каталог ссылок</b><br>
-<a href="{% url 'ads_list' %}">Объявления</a><br>
-<a href="{% url 'news_list' %}">Новости</a><br>
-<a href="{% url 'users' %}">Пользователи</a><br>
-<a href="/admin">Админка</a>
+{% if ads %}
+    {% for ad in filter.qs %}
+        {{ ad.title }}<br>
+    {% endfor %}
+{% endif %}
 
 
 {% endblock content %}

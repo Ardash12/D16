@@ -1,9 +1,16 @@
-from django_filters import FilterSet, CharFilter, ModelChoiceFilter, DateFromToRangeFilter
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter, DateFromToRangeFilter, BooleanFilter
+from django import forms
+from django.db import models
 from .models import Ads, Answer
 
-class AnswerFilter(FilterSet):
-    ads = ModelChoiceFilter(queryset=Ads.objects.all())
 
+class AnswerFilter(FilterSet):
+    class Meta:
+        model = Answer
+        fields = ['author', 'ads',]
+
+
+class AdsFilter(FilterSet):
     class Meta:
         model = Ads
-        fields = ['ads']
+        fields = ('author', 'title', 'category', 'date',)
