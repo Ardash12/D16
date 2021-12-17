@@ -30,6 +30,7 @@
         </td>
         <td></td>
         <td></td>
+        <td></td>
     </tr>
     {% for answer in answers %}
     <tr>
@@ -47,6 +48,23 @@
         </td>
         <td>
             {{ answer.status }}
+        </td>
+        <td>
+            {% if not answer.status %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="name">Не принят </label>
+                    <input type="hidden" value='{{ answer.id }}' name="answer">
+                    <input type="submit" value='Принять'>
+                </form>
+            {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="name">Принят </label>
+                    <input type="hidden" value='{{ answer.id }}' name="answer">
+                    <input type="submit" value="Отменить">
+                </form>
+            {% endif %}
         </td>
         <td>
             <a href="{% url 'answer' answer.id %}">Просмотр</a>

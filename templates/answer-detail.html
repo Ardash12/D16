@@ -11,5 +11,21 @@
 <p><b>Отклик на объявление:</b> {{ answer.ads.title }}</p>
 <p><b>Дата размещения:</b> {{ answer.date|date:'d M Y' }}</p>
 <p><b>Статус отклика:</b> {{ answer.status }}</p>
-
+<p>
+{% if not answer.status %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Не принят </label>
+        <input type="hidden" value='{{ answer.id }}' name="answer">
+        <input type="submit" value='Принять'>
+    </form>
+{% else %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Принят </label>
+        <input type="hidden" value='{{ answer.id }}' name="answer">
+        <input type="submit" value="Отменить">
+    </form>
+{% endif %}
+</p>
 {% endblock content %}

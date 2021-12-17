@@ -102,7 +102,13 @@ class AnswerList(ListView):
 
     def post(self, request, *args, **kwargs):
         # answer_id = request.POST['submit']
-        print(request.POST)
+        answer_id = request.POST['answer']
+        answer = Answer.objects.get(id=answer_id)
+        if answer.status:
+            answer.status = False
+        else:
+            answer.status = True
+        answer.save()
         return super().get(request, *args, **kwargs)
 
 
@@ -118,6 +124,17 @@ class AnswerDetail(DetailView):
     template_name = 'answer-detail.html'
     context_object_name = 'answer'
     queryset = Answer.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        # answer_id = request.POST['submit']
+        answer_id = request.POST['answer']
+        answer = Answer.objects.get(id=answer_id)
+        if answer.status:
+            answer.status = False
+        else:
+            answer.status = True
+        answer.save()
+        return super().get(request, *args, **kwargs)
 
 
 def author_list(request):
