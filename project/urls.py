@@ -36,4 +36,5 @@ urlpatterns = [
     path('temp/<int:pk>', author_detail, name='temp2'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('accounts.urls')),
+    path('account/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

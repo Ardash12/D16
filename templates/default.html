@@ -29,7 +29,9 @@
             <td><a href="{% url 'ads_list' %}">Объявления</a></td>
             <td><a href="{% url 'news_list' %}">Новости</a></td>
             <td><a href="{% url 'users' %}">Пользователи</a></td>
+        {% if user.is_authenticated %}
             <td><a href="{% url 'answers' %}">Отклики</a></td>
+        {% endif %}
             <td><a href="/admin"  target="_blank">Админка</a></td>
         </tr>
     </table>
@@ -38,9 +40,9 @@
                 {% if user.is_authenticated %}
                     <p>Вы вошли как, <b>{{ request.user.username }}</b> /
                         <a href="{% url 'accounts' %}">Личный кабинет</a> /
-                    <a href="{% url 'logout' %}">Выйти</a></p>
+                    <a href="/account/logout/">Выйти</a></p>
                 {% else %}
-                    <a href="{% url 'login' %}">Войти</a>
+                    <a href="/account/login/">Войти</a> / <a href="/account/signup/">Регистрация</a>
                 {% endif %}
             </td>
         </tr>
