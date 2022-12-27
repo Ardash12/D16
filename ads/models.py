@@ -10,12 +10,20 @@ class Author(models.Model):
     def __str__(self):
         return f'{self.authorUser}'
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
     def __str__(self):
         return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Ads(models.Model):
@@ -28,6 +36,10 @@ class Ads(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+    class Meta:
+        verbose_name = 'Объявление'
+        verbose_name_plural = 'Обявлении'
+
 
 class Answer(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -39,6 +51,10 @@ class Answer(models.Model):
     def __str__(self):
         return f'{self.text[:20]}...'
 
+    class Meta:
+        verbose_name = 'Отклик'
+        verbose_name_plural = 'Отклики'
+
 
 class News(models.Model):
     title = models.CharField(max_length=128)
@@ -47,4 +63,8 @@ class News(models.Model):
 
     def __str__(self):
         return f'{self.title}: {self.text[:20]}'
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
 

@@ -9,6 +9,7 @@ from .filters import AdsFilter, AnswerFilter
 
 
 def index(request):
+    '''Временная функция для главной страницы'''
     data = {
         'ads': Ads.objects.all(),
         'filter': AdsFilter(request.GET, queryset=Ads.objects.all())
@@ -17,10 +18,11 @@ def index(request):
 
 
 class AdsList(ListView):
+    '''Список объявлений, с возможностью фильтрации'''
     model = Ads
     template_name = 'ads-list.html'
     context_object_name = 'ads_list'
-    paginate_by = 5  # постраничный вывод
+    paginate_by = 5 
     ordering = ['date']
 
     def get_filter(self):
@@ -38,13 +40,14 @@ class AdsList(ListView):
 
 
 class AdsDetail(DetailView):
+    '''Страница объявления, с возможностью отправить отклин на него в 
+    виде POST запроса'''
     model = Ads
     template_name = 'ads-detail.html'
     context_object_name = 'ads_detail'
     queryset = Ads.objects.all()
 
     def post(self, request, *args, **kwargs):
-        # берём значения для нового товара из POST-запроса отправленного на сервер
         author = Author.objects.get(authorUser=request.user)
         answer = Answer(
             text=request.POST['name'],
@@ -52,29 +55,32 @@ class AdsDetail(DetailView):
             author_id=author.id
         )
         answer.save()
-        return super().get(request, *args, **kwargs)  # отправляем пользователя обратно на GET-запрос.
+        return super().get(request, *args, **kwargs) 
+
 
 class NewsList(ListView):
+    '''Список новостей'''
     model = News
     template_name = 'news-list.html'
     context_object_name = 'news_list'
     queryset = News.objects.all()
-    paginate_by = 5  # постраничный вывод
-    ordering = ['-date']   # сортируем, свежие сверху
+    paginate_by = 5 
+    ordering = ['-date']
 
 
 class NewsDetail(DetailView):
+    '''Страница новости'''
     model = News
     template_name = 'news-detail.html'
     context_object_name = 'news_detail'
     queryset = News.objects.all()
 
 
-class UserList(ListView):   # список пользователей
+class UserList(ListView): 
+    '''Список пользователей'''
     model = User
     template_name = 'users-list.html'
-    # context_object_name = 'users'
-    # queryset = User.objects.all()
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,13 +90,15 @@ class UserList(ListView):   # список пользователей
 
 
 class AnswerList(ListView):
+    '''Список откликов на объявления'''
     model = Answer
     context_object_name = 'answers'
     template_name = 'answer-list.html'
 
     def get_filter(self):
         user = User.objects.get(id=self.request.user.id)
-        return AnswerFilter(self.request.GET, queryset=Answer.objects.filter(ads__author=user.id).order_by('-date'))
+        queryset=Answer.objects.filter(ads__author=user.id).order_by('-date')
+        return AnswerFilter(self.request.GET, queryset)
 
     def get_queryset(self):
         return self.get_filter().qs
@@ -113,6 +121,7 @@ class AnswerList(ListView):
 
 
 class AnswerDelete(DeleteView):
+    '''Удалить отклик'''
     queryset = Answer.objects.all()
     template_name = 'answer-delete.html'
     context_object_name = 'answer'
@@ -120,6 +129,7 @@ class AnswerDelete(DeleteView):
 
 
 class AnswerDetail(DetailView):
+    '''Посмотреть отклик'''
     meta = Answer
     template_name = 'answer-detail.html'
     context_object_name = 'answer'
@@ -138,11 +148,13 @@ class AnswerDetail(DetailView):
 
 
 def author_list(request):
+    '''Временная. Список авторов'''
     authors = Author.objects.all()
     return render(request, 'temp.html', context={'authors': authors})
 
 
 def author_detail(request, pk):
+    '''Временная. Страница автора'''
     # author = Author.objects.get(id=pk)
     author = get_object_or_404(Author, id=pk)
     ads = Ads.objects.filter(author=author)
