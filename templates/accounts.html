@@ -1,73 +1,30 @@
 {% extends 'default.html' %}
 
 {% block title %}
-Аккаунт пользователя
+
 {% endblock title %}
 
 {% block content %}
+<style>
+	table{
+	  margin: 0px 0px;
+	  text-align: left;
+	  border: 1px solid rgb(0, 0, 0);
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+	td,th{
+    border: 1px solid rgb(0, 0, 0);
+    padding: 5px;
+	vertical-align: top;
+	}
+</style>
 
-    <h2>Страница пользователя {{request.user.username}}</h2>
-    <div>Информация о пользователе</div>
-    <h3>Мои объявления:</h3>
-    {% if ads %}
-        {% for ad in ads %}
-            {{ ad.title }} <br>
-        {% endfor %}
-    {% else %}
-            <p>У вас нет опубликованных объявлений</p>
-    {% endif %}
+    <p>Страница пользователя {{request.user.username}}</p>
     <br>
-    Автор: {{ author }}
-    <br>
-    <h3>Мои отклики:</h3>
-    {% if answers %}
-        {% for answer in my_answers %}
-            {{ answer }}<br>
-        {% endfor %}
-    {% else %}
-        <p>У вас нет откликов</p>
-    {% endif %}
-
-    <h3>Отклики на мои объявления:</h3>
-    {{ answers_to_my_ads }} <br>
-    {% if answers_to_my_ads %}
-    <table>
-        <tr>
-            <td><b>Отклик на объявление</b></td>
-            <td><b>Текст отклика</b></td>
-            <td><b>Автор</b></td>
-            <td><b>Дата отклика</b></td>
-            <td><b>Статус</b></td>
-        </tr>
-        {% for answers in answers_to_my_ads %}
-        {% for ans in answers %}
-        <tr>
-            <td>{{ ans.ads.title }}</td>
-            <td>{{ ans.text |truncatechars:150 }}</td>
-            <td>{{ ans.author }}</td>
-            <td>{{ ans.date | date:'d M Y' }}</td>
-            <td>
-            {% if not ans.status %}
-                <form method="POST">
-                    {% csrf_token %}
-                    <label for="name">Не принят </label>
-                    <input type="hidden" value='{{ ans.id }}' Name="answer">
-                    <input type="submit" value='Принять'>
-                </form>
-            {% else %}
-                <form method="POST">
-                    {% csrf_token %}
-                    <label for="name">Принят </label>
-                    <input type="submit" value="Отменить">
-                </form>
-            {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-        {% endfor %}
-    </table>
-    {% else %}
-        <p>У вас пока нет откликов</p>
-    {% endif %}
+    <p>Мои объявления ({{ads_count}})</p>
+    <p>Мои отклики на объявления ({{my_answers_count}})</p>
+    <p>Отклики на мои объявления ({{answers_to_my_ads_count}})</p>
+   
 
 {% endblock content %}

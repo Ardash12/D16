@@ -26,7 +26,8 @@ class AdsList(ListView):
     ordering = ['date']
 
     def get_filter(self):
-        return AdsFilter(self.request.GET, queryset=super().get_queryset())
+        ads_filter = AdsFilter(self.request.GET, queryset=super().get_queryset())
+        return ads_filter
 
     def get_queryset(self):
         return self.get_filter().qs
@@ -37,6 +38,8 @@ class AdsList(ListView):
         return context
 
 
+class AdsUserList(AdsList):
+    pass
 
 
 class AdsDetail(DetailView):
@@ -81,7 +84,6 @@ class UserList(ListView):
     model = User
     template_name = 'users-list.html'
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['users'] = User.objects.all()
@@ -97,7 +99,7 @@ class AnswerList(ListView):
 
     def get_filter(self):
         user = User.objects.get(id=self.request.user.id)
-        queryset=Answer.objects.filter(ads__author=user.id).order_by('-date')
+        queryset=Answer.objects.filter(ads__author=user.id).order_by('-date')   
         return AnswerFilter(self.request.GET, queryset)
 
     def get_queryset(self):
@@ -106,10 +108,11 @@ class AnswerList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = self.get_filter()
+        context['answer_list'] = Answer.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
-        # answer_id = request.POST['submit']
+        '''Принимаем/откланяем отклик'''
         answer_id = request.POST['answer']
         answer = Answer.objects.get(id=answer_id)
         if answer.status:

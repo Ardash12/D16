@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django import forms
 from django_filters import FilterSet
 from django.forms import ModelForm
+
+from allauth.account.forms import SignupForm
+
 from ads.models import Answer
 
 
@@ -17,3 +20,17 @@ class BaseRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2',)
+
+
+class MyCustomSignupForm(SignupForm):
+
+    def save(self, request):
+
+        # Ensure you call the parent class's save.
+        # .save() returns a User object.
+        user = super(MyCustomSignupForm, self).save(request)
+        
+        # Add your own processing here.
+
+        # You must return the original result.
+        return user

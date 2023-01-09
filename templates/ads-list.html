@@ -5,10 +5,27 @@
 {% endblock title %}
 
 {% block content %}
+
+<style>
+	table{
+	  margin: 0px 0px;
+	  text-align: left;
+	  border: 1px solid rgb(0, 0, 0);
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+	td,th{
+    border: 1px solid rgb(0, 0, 0);
+    padding: 5px;
+	vertical-align: top;
+	}
+</style>
+
 <form method="get">
     {{ filter.form.as_p }}
     <input type="submit" value="Применить">
 </form>
+<br>
 {% if ads_list %}
     <table>
             <tr>

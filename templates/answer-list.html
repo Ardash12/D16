@@ -1,16 +1,33 @@
 {% extends 'default.html' %}
 
 {% block title %}
-Список объявлений
+    Список откликов
 {% endblock title %}
 
 {% block content %}
-<h1>Отклики на мои объявления</h1>
+
+<style>
+	table{
+	  margin: 0px 0px;
+	  text-align: left;
+	  border: 1px solid rgb(0, 0, 0);
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+	td,th{
+    border: 1px solid rgb(0, 0, 0);
+    padding: 5px;
+	vertical-align: top;
+	}
+</style>
+
+<p>Отклики на мои объявления</p>
 <form method="get">
     {{ filter.form.as_p }}
     <input type="submit" value="Применить">
 </form>
-{% if answers %}
+{% if answer_list %}
+<br>
 <table>
     <tr>
         <td>
@@ -32,7 +49,7 @@
         <td></td>
         <td></td>
     </tr>
-    {% for answer in answers %}
+    {% for answer in answer_list %}
     <tr>
         <td>
             {{ answer.ads.title }}
@@ -75,9 +92,6 @@
     </tr>
     {% endfor %}
 </table>
-{% else %}
-<p>У вас нет откликов</p>
 {% endif %}
-
 
 {% endblock content %}

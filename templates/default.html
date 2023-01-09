@@ -1,59 +1,99 @@
-<!DOCTYPE html>
 {% load static %}
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Заголовок - {% block title %} {% endblock title %}</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Сайт личных вещей. {title}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
 </head>
+
 <body>
-    <style type="text/css">
-        TABLE {
-            width: 100%; /* Ширина таблицы */
-            border-collapse: collapse; /* Убираем двойные линии между ячейками */
-        }
-        TD, TH {
-            padding: 3px; /* Поля вокруг содержимого таблицы */
-            border: 1px solid white; /* Параметры рамки */
-        }
-        TH {
-            background: #b0e0e6; /* Цвет фона */
-        }
-    </style>
-    <table border="1">
-        <tr>
-            <td width="600">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Главная</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+         <!-- <li class="nav-item active">
+           <a class="nav-link" href="#">Home
+             <span class="sr-only">(current)</span>
+           </a>
+         </li> -->
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'ads_list' %}">Объявления</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'news_list' %}">Новости</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users' %}">Пользователи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'answers' %}">Отклики</a>
+                        </li>
+                    {% endif %}
 
-    <table cellpadding="15">
-        <tr>
-            <td><b>Каталог ссылок:</b></td>
-            <td><a href="{% url 'ads_list' %}">Объявления</a></td>
-            <td><a href="{% url 'news_list' %}">Новости</a></td>
-            <td><a href="{% url 'users' %}">Пользователи</a></td>
-        {% if user.is_authenticated %}
-            <td><a href="{% url 'answers' %}">Отклики</a></td>
-        {% endif %}
-            <td><a href="/admin"  target="_blank">Админка</a></td>
-        </tr>
-    </table>
-            </td>
-            <td align="right">
-                {% if user.is_authenticated %}
-                    <p>Вы вошли как, <b>{{ request.user.username }}</b> /
-                        <a href="{% url 'accounts' %}">Личный кабинет</a> /
-                    <a href="/account/logout/">Выйти</a></p>
-                {% else %}
-                    <a href="/account/login/">Войти</a> / <a href="/account/signup/">Регистрация</a>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
-    <hr>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts' %}">Личный кабинет ({{ request.user.username }})</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_login' %}">Вход</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_signup' %}">Регистрация</a>
+                        </li>
+                    {% endif %}
+                    
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_logout' %}">Выход</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>
+            {% block title %}
+            {% endblock %}
+        </h1>
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
 
+            </div>
+        </div>
+    </div>
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.slim.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-
-{% block content %}
-    {{ flatpage.content }}
-{% endblock content %}
 </body>
 </html>

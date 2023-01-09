@@ -11,7 +11,6 @@ from .forms import BaseRegisterForm
 from ads.models import Ads, News, Answer, Author
 
 
-
 class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
@@ -25,29 +24,13 @@ class BaseRegisterView(CreateView):
 
 
 class Account(LoginRequiredMixin, TemplateView):
+    '''Личный кабинет'''
     template_name = 'accounts.html'
 
     def get_context_data(self, **kwargs):
-        author = Author.objects.get(authorUser=User.objects.get(id=self.request.user.id))   # создаем объект класса текущего пользователя
-        ads = Ads.objects.filter(author=author)   # создаем список объявлений текущего пользователя
-        # добавить проверку
-        answers_to_my_ads = []
-        for ad in ads:   # перебираем объявления пользователя
-            ans = Answer.objects.filter(ads=ad)   # находит отклики на объявления
-            if ans:   # проверяем на наличие отклика перед записью в список
-                answers_to_my_ads.append(ans)   # из-за этого приходится делать двойную распаковку в шаблоне accoutts.html
-
-        # answers_to_my_ads = Answer.objects.filter(ads=Ads.objects.filter(author=author))
-
         context = super().get_context_data(**kwargs)
-        context['ads'] = Ads.objects.filter(author=author)
-        context['author'] = author
-        context['my_answers'] = Answer.objects.filter(author=author)
-        context['answers_to_my_ads'] = answers_to_my_ads
-
+        author = Author.objects.get(authorUser=User.objects.get(id=self.request.user.id))
+        context['ads_count'] = Ads.objects.filter(author=author).count()
+        context['my_answers_count'] = Answer.objects.filter(author=author).count()
+        context['answers_to_my_ads_count'] = Answer.objects.filter(ads__author=author).count()
         return context
-
-    def post(self, request, *args, **kwargs):
-        # answer_id = request.POST['submit']
-        print(request.POST)
-        return super().get(request, *args, **kwargs)
