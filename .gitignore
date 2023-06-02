@@ -1,5 +1,8 @@
 .idea/
 venv/
+# db.sqlite3
+.env
+**/media/*
+**/static/*
 **/__pycache__/
-
-
+**/migrations/*

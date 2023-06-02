@@ -1,0 +1,29 @@
+{% extends 'default.html' %}
+
+{% block content %}
+
+<h3>{{category.name}}</h3>
+
+<p><b>Подписчики</b></p>
+
+{%if subscribers%}
+
+<ul>
+{%for user in subscribers%}
+    <li>{{user}}</li>
+{%endfor%}
+</ul>
+{%else%}
+<p>Нет подписчиков</p>
+{%endif%}
+
+
+<a href="{% url 'subscribe' category.id %}">
+{%if request.user in subscribers%}
+Отписаться
+{%else%}
+Подписаться
+{%endif%}
+</a>
+
+{% endblock content %}

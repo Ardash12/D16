@@ -1,0 +1,81 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Список объявлений
+{% endblock title %}
+
+{% block content %}
+
+<style>
+	table{
+	  margin: 0px 0px;
+	  text-align: left;
+	  border: 1px solid rgb(0, 0, 0);
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+	td,th{
+    border: 1px solid rgb(0, 0, 0);
+    padding: 5px;
+	vertical-align: top;
+	}
+</style>
+
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Применить">
+</form>
+<br>
+{% if ads_list %}
+    <table>
+            <tr>
+                <td>
+                    <b>Заголовок</b>
+                </td>
+                <td>
+                    <b>Категория</b>
+                </td>
+                <td>
+                    <b>Дата публикации</b>
+                </td>
+            </tr>
+        {% for ad in ads_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'ads' ad.id %}">{{ad.title}}</a>
+
+                </td>
+                <td>
+                    {{ad.category}}
+                </td>
+                <td>
+                    {{ad.date|date:'d M Y'}}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<!-- Проверяем что поддерживается постраничный вывод -->
+{% if is_paginated %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+{% endif %}
+{% endblock content %}
