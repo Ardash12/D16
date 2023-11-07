@@ -25,9 +25,9 @@ git clone git@github.com:Ardash12/D16.git
 * venv/Scripts/activate.bat
 ```
 
-#### 3. Устанавливаем Django 
+#### 3. Устанавливаем зависимости  
 ```
-pip install django==3.2.9
+pip install -r requirements.txt
 ```
 #### 4. Запустить проект
 ```
